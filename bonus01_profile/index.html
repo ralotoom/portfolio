@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Avatar Switcher | Rashed</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head>
+<body>
+  <main class="page">
+    <a class="back" href="../ex00/index.html">← Portfolio home</a>
+    <p class="eyebrow">Profile</p>
+    <section class="profile-card" aria-label="Interactive profile preview">
+      <div class="photo-shell" id="photoShell"><img id="avatar" src="assets/profile-full.jpg" alt="Rashed in a full-length formal portrait"></div>
+      <div class="profile-copy"><span class="status">● PERSONAL PROFILE</span><h2 id="profileName">Rashed</h2><p id="profileCaption">Formal portrait</p>
+        <div class="choices" role="group" aria-label="Choose a profile photo">
+          <button type="button" class="choice active" data-image="profile-full.jpg" data-alt="Rashed in a full-length formal portrait" data-caption="Formal portrait" aria-pressed="true">Full portrait</button>
+          <button type="button" class="choice" data-image="profile-close.jpg" data-alt="Close-up professional portrait of Rashed" data-caption="Professional portrait" aria-pressed="false">Close-up</button>
+          <button type="button" class="choice" data-image="profile-mirror.jpg" data-alt="Rashed in a mirror portrait" data-caption="Mirror portrait" aria-pressed="false">Mirror</button>
+        </div>
+        <p class="hint" role="status" id="hint">Select a style to change the photo.</p>
+      </div>
+    </section>
+  </main>
+</body></html>
