@@ -4,7 +4,6 @@ const themeToggle = document.getElementById("themeToggle");
 const languageToggle = document.getElementById("languageToggle");
 const nav = document.getElementById("nav");
 const menuToggle = document.getElementById("menuToggle");
-
 const translations = {
   en: {
     nav: ["About", "Skills", "Projects", "Soft Skills", "Contact"],
@@ -38,7 +37,6 @@ const translations = {
     contactIntro: "Choose a platform to connect with me.",
     top: "Back to top ↑"
   },
-
   ar: {
     nav: ["من أنا", "المهارات", "المشاريع", "المهارات الناعمة", "تواصل معي"],
     eyebrow: [
@@ -74,15 +72,12 @@ const translations = {
 };
 
 let currentLanguage = "en";
-
-
 const githubProjectLinks = {
   html: "https://github.com/ralotoom/discovery-web-piscine/tree/main/Project_01_HTML_Fundamentals",
   css: "https://github.com/ralotoom/discovery-web-piscine/tree/main/css",
   js: "https://github.com/ralotoom/java-script"
  
 };
-
 const githubProjectText = {
   en: {
     html: "A project focused on page structure and semantic HTML.",
@@ -90,7 +85,6 @@ const githubProjectText = {
     js: "A project focused on interactions and dynamic page behavior.",
     view: "View on GitHub"
   },
-
   ar: {
     html: "مشروع يركز على بناء هيكل صفحات الويب باستخدام HTML.",
     css: "مشروع يركز على التنسيق والتخطيط والتصميم المتجاوب باستخدام CSS.",
@@ -98,7 +92,6 @@ const githubProjectText = {
     view: "عرض على GitHub"
   }
 };
-
 function updateGithubProjectCards(language) {
   document.querySelectorAll(".github-project").forEach(card => {
     const key = card.dataset.githubProject;
@@ -107,56 +100,42 @@ function updateGithubProjectCards(language) {
     card.href = url || "#projects";
     card.target = url ? "_blank" : "_self";
     card.rel = url ? "noopener noreferrer" : "";
-
     card.setAttribute(
       "aria-label",
       `${language === "ar" ? "فتح مشروع" : "Open project"} ${key.toUpperCase()} ${language === "ar" ? "على GitHub" : "on GitHub"}`
     );
-
     const description = card.querySelector("[data-project-description]");
-
     if (description) {
       description.textContent = githubProjectText[language][key];
     }
-
     const linkLabel = card.querySelector(".project-link-label");
-
     if (linkLabel) {
       linkLabel.innerHTML = `${githubProjectText[language].view} <span>↗</span>`;
     }
   });
 }
-
 document.querySelectorAll(".github-project").forEach(card => {
   card.addEventListener("click", event => {
     const key = card.dataset.githubProject;
-
     if (!(githubProjectLinks[key] || "").trim()) {
       event.preventDefault();
-
       alert(
         `Add the GitHub URL for the ${key.toUpperCase()} project in script.js first.`
       );
     }
   });
 });
-
 themeToggle.addEventListener("click", () => {
   body.classList.toggle("light-theme");
-
   const light = body.classList.contains("light-theme");
-
   themeToggle.setAttribute("aria-pressed", String(light));
   themeToggle.textContent = light ? "☼" : "◐";
 });
-
 menuToggle.addEventListener("click", () => {
   const isOpen = nav.classList.toggle("open");
-
   menuToggle.setAttribute("aria-expanded", String(isOpen));
   menuToggle.textContent = isOpen ? "×" : "☰";
 });
-
 nav.querySelectorAll("a").forEach(link => {
   link.addEventListener("click", () => {
     nav.classList.remove("open");
@@ -164,151 +143,108 @@ nav.querySelectorAll("a").forEach(link => {
     menuToggle.textContent = "☰";
   });
 });
-
 function setText(selector, value) {
   const element = document.querySelector(selector);
-
   if (element) {
     element.innerHTML = value;
   }
 }
-
 function setLanguage(language) {
   currentLanguage = language;
-
   const t = translations[language];
-
   document.documentElement.lang = language;
   document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
-
   languageToggle.textContent = language === "en" ? "AR" : "EN";
-
   const navLinks = nav.querySelectorAll("a");
-
   t.nav.forEach((label, index) => {
     if (navLinks[index]) {
       navLinks[index].textContent = label;
     }
   });
-
   const eyebrowEls = document.querySelectorAll(".eyebrow");
-
   t.eyebrow.forEach((label, index) => {
     if (eyebrowEls[index]) {
       eyebrowEls[index].textContent = label;
     }
   });
-
   setText(".hero h1", t.heroTitle);
   setText(".hero-intro", t.heroIntro);
-
   document.querySelector(".hero-actions .button").innerHTML =
     `${t.explore} <span>↗</span>`;
-
   document.querySelector(".hero-actions .text-link").innerHTML =
     `${t.connect} <span>→</span>`;
-
   setText("#about h2", t.aboutTitle);
-
   const aboutLead = document.querySelector(".about-copy .lead");
-
   if (aboutLead) {
     aboutLead.textContent = t.aboutLead;
   }
-
   document.querySelectorAll(".about-copy p:not(.lead)").forEach((p, i) => {
     p.textContent = [t.aboutText1, t.aboutText2][i] || p.textContent;
   });
-
   setText("#skills h2", t.skillsTitle);
-
   const skillsDesc = document.querySelector("#skills .section-description");
-
   if (skillsDesc) {
     skillsDesc.remove();
   }
-
   setText("#projects h2", t.projectsTitle);
-
   const projectsDescription = document.querySelector("#projects .section-description");
-
   if (projectsDescription) {
     projectsDescription.textContent = t.projectsDesc;
   }
-
   setText("#hobbies h2", t.hobbiesTitle);
-
   document.querySelectorAll(".hobbies-grid article").forEach((card, i) => {
     if (t.softSkills[i]) {
       card.querySelector("h3").textContent = t.softSkills[i][0];
       card.querySelector("p").textContent = t.softSkills[i][1];
     }
   });
-
   setText("#contact h2", t.contactTitle);
-
   document.querySelector(".contact-copy>p:not(.eyebrow)").textContent =
     t.contactIntro;
-
   document.querySelector(".back-top").textContent = t.top;
-
   updateGithubProjectCards(language);
 }
-
 languageToggle.addEventListener("click", () => {
   setLanguage(currentLanguage === "en" ? "ar" : "en");
 });
-
 updateGithubProjectCards(currentLanguage);
-
 const projectNotes = {
   "00": [
     "Personal Portfolio",
     "A responsive portfolio that demonstrates semantic HTML, custom CSS, a live theme switcher, and bilingual navigation."
   ],
-
   "01": [
     "Avatar Switcher",
     "A small DOM exercise: update an image's src and alt attributes on click, with a CSS transition and no page reload."
   ],
-
   "02": [
     "Two Languages, One Site",
     "A translation dictionary updates interface text and changes the document language and direction between English LTR and Arabic RTL."
   ],
-
   "03": [
     "Network Safety Map",
     "A conceptual diagram for learning about connected devices, network boundaries, and the importance of thinking about security from the start."
   ]
 };
-
 const dialog = document.getElementById("projectDialog");
-
 document.querySelectorAll("[data-project]").forEach(button => {
   button.addEventListener("click", () => {
     const note = projectNotes[button.dataset.project];
-
     document.getElementById("dialogKicker").textContent =
       `PROJECT ${button.dataset.project}`;
-
     document.getElementById("dialogTitle").textContent = note[0];
     document.getElementById("dialogText").textContent = note[1];
-
     dialog.showModal();
   });
 });
-
 document.getElementById("dialogClose").addEventListener("click", () => {
   dialog.close();
 });
-
 dialog.addEventListener("click", event => {
   if (event.target === dialog) {
     dialog.close();
   }
 });
-
 const revealObserver = "IntersectionObserver" in window
   ? new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -319,7 +255,6 @@ const revealObserver = "IntersectionObserver" in window
       });
     }, { threshold: 0.12 })
   : null;
-
 document.querySelectorAll(
   ".section-heading, .about-grid, .skill-card, .project-card, .hobbies-grid article, .contact-form"
 ).forEach(el => {
